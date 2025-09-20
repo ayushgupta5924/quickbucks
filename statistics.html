@@ -6,6 +6,8 @@
     <title>QuickBucks - Statistics</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#667eea">
 </head>
 <body>
     <div id="app" class="animate__animated animate__fadeIn">
@@ -63,12 +65,30 @@
 
 
 
+        <div class="ai-insights">
+            <h4>🤖 AI Productivity Insights</h4>
+            <div id="insightsList"></div>
+            <div class="insights-controls">
+                <button onclick="generateNewInsights()" class="insights-btn">🔄 Refresh Insights</button>
+                <button onclick="testAIInsights()" class="insights-btn" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">🧪 Test AI</button>
+            </div>
+        </div>
+
         <div class="recent-tasks">
             <h4>Recent Completed Tasks</h4>
             <div id="recentTasksList"></div>
         </div>
     </div>
 
+    <script>
+        // Ensure theme is applied immediately
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'default';
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+            }
+        })();
+    </script>
     <script src="statistics.js"></script>
 </body>
 </html>

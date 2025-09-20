@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#667eea">
 </head>
 <body>
     <div id="app" class="animate__animated animate__fadeIn">
@@ -20,13 +22,55 @@
         <h1>QuickBucks</h1>
 
         <div id="taskInput" class="app-section animate__animated animate__fadeInLeft">
+            <label for="naturalInput">Quick Add (AI-Powered):</label>
+            <input type="text" id="naturalInput" placeholder="e.g., 'Finish marketing report by Friday for ₹200'" onkeypress="handleNaturalInput(event)">
+            <button type="button" onclick="parseNaturalLanguage()" class="parse-btn">✨ Parse with AI</button>
+            
+            <div class="divider">OR</div>
+            
             <label for="taskName">Task Name:</label>
             <input type="text" id="taskName" placeholder="Enter task name">
-            <br>
+            
+            <div class="form-row">
+                <div class="form-col">
+                    <label for="taskCategory">Category:</label>
+                    <select id="taskCategory">
+                        <option value="work">Work</option>
+                        <option value="personal">Personal</option>
+                        <option value="health">Health</option>
+                        <option value="learning">Learning</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-col">
+                    <label for="taskPriority">Priority:</label>
+                    <select id="taskPriority">
+                        <option value="low">Low</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </div>
+            </div>
+            
+            <label for="taskDueDate">Due Date:</label>
+            <input type="date" id="taskDueDate">
+            
             <label for="taskReward">Task Reward (₹):</label>
             <input type="number" id="taskReward" placeholder="Enter task reward">
-            <br>
-            <button onclick="addTask()"><i class="fas fa-plus"></i> Add Task</button>
+            
+            <button onclick="addTask()"><i class="fas fa-plus"></i> Add Task (Alt+N)</button>
+        </div>
+
+        <div id="taskControls" class="app-section">
+            <input type="text" id="searchTasks" placeholder="Search tasks..." oninput="filterTasks()">
+            <div class="filter-buttons">
+                <button onclick="filterByCategory('all')" class="filter-btn active" data-filter="all">All</button>
+                <button onclick="filterByCategory('work')" class="filter-btn" data-filter="work">Work</button>
+                <button onclick="filterByCategory('personal')" class="filter-btn" data-filter="personal">Personal</button>
+                <button onclick="filterByCategory('health')" class="filter-btn" data-filter="health">Health</button>
+                <button onclick="filterByCategory('learning')" class="filter-btn" data-filter="learning">Learning</button>
+            </div>
+            <button id="undoBtn" onclick="undoLastAction()" style="display: none;"><i class="fas fa-undo"></i> Undo</button>
         </div>
 
         <hr class="separator animate__animated animate__fadeIn">
@@ -49,7 +93,7 @@
 
         <hr class="separator animate__animated animate__fadeIn">
 
-        <div id="appDescription" class="app-section animate__animated animate__fadeInUp">
+        <!-- <div id="appDescription" class="app-section animate__animated animate__fadeInUp">
             <div id="descriptionBox">
                <h4><u>Application Description:</u></h4>
                 <ul id="appDescriptionList">
@@ -59,9 +103,22 @@
                     <li>Download QuickBucks now to transform your routine into a rewarding experience</li>
                 </ul>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <script src="script.js"></script>
+    <script>
+        // Ensure theme is applied immediately
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'default';
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+            }
+        })();
+        
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js');
+        }
+    </script>
 </body>
 </html>
