@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickBucks - Statistics</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+</head>
+<body>
+    <div id="app" class="animate__animated animate__fadeIn">
+        <nav class="navbar">
+            <a href="index.html">Dashboard</a>
+            <a href="statistics.html" class="active">Statistics</a>
+            <a href="settings.html">Settings</a>
+            <a href="about.html">About</a>
+        </nav>
+
+        <h1>Statistics</h1>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Tasks</h3>
+                <div class="stat-number" id="totalTasks">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Completed Tasks</h3>
+                <div class="stat-number" id="completedTasksCount">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Total Earnings</h3>
+                <div class="stat-number">₹<span id="totalEarnings">0</span></div>
+            </div>
+            <div class="stat-card">
+                <h3>Success Rate</h3>
+                <div class="stat-number" id="successRate">0%</div>
+            </div>
+        </div>
+
+        <div class="chart-section">
+            <h4>Completion Progress</h4>
+            <div class="circular-progress">
+                <div class="progress-ring">
+                    <svg width="120" height="120">
+                        <circle cx="60" cy="60" r="50" stroke="#e2e8f0" stroke-width="8" fill="none"/>
+                        <circle id="progressCircle" cx="60" cy="60" r="50" stroke="#667eea" stroke-width="8" fill="none" 
+                                stroke-dasharray="314" stroke-dashoffset="314" stroke-linecap="round"/>
+                    </svg>
+                    <div class="progress-text" id="progressText">0%</div>
+                </div>
+                <div class="progress-labels">
+                    <div class="progress-label">
+                        <span class="label-color completed"></span>
+                        <span>Completed</span>
+                    </div>
+                    <div class="progress-label">
+                        <span class="label-color pending"></span>
+                        <span>Pending</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="recent-tasks">
+            <h4>Recent Completed Tasks</h4>
+            <div id="recentTasksList"></div>
+        </div>
+    </div>
+
+    <script src="statistics.js"></script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickBucks - About</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+</head>
+<body>
+    <div id="app" class="animate__animated animate__fadeIn">
+        <nav class="navbar">
+            <a href="index.html">Dashboard</a>
+            <a href="statistics.html">Statistics</a>
+            <a href="settings.html">Settings</a>
+            <a href="about.html" class="active">About</a>
+        </nav>
+
+        <h1>About QuickBucks</h1>
+
+        <div class="about-section">
+            <div class="feature-card">
+                <h3>Version 1.0</h3>
+                <p>Transform your productivity with gamified task management</p>
+            </div>
+
+            <div class="feature-card">
+                <h3>Features</h3>
+                <ul class="feature-list">
+                    <li>Task creation with custom rewards</li>
+                    <li>Real-time wallet tracking</li>
+                    <li>Progress statistics</li>
+                    <li>Data export capabilities</li>
+                </ul>
+            </div>
+
+            <!-- <div class="feature-card">
+                <h3>Contact</h3>
+                <p>Email: ayushgupta4417@gmail.com</p>
+                <p>LinkedIn: https://www.linkedin.com/in/ayushgupta5924/</p>
+            </div> -->
+
+
+            <div class="feature-card">
+    <h3>Contact Me</h3>
+    <p>Email: ayushgupta4417@gmail.com</p>
+    <p>
+        LinkedIn:
+        <a href="https://www.linkedin.com/in/ayushgupta5924/" target="_blank">
+            LinkedIn Profile
+        </a>
+    </p>
+</div>
+
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'default';
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+            }
+        });
+    </script>
+</body>
+</html>

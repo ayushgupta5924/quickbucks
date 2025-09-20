@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickBucks - Settings</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+</head>
+<body>
+    <div id="app" class="animate__animated animate__fadeIn">
+        <nav class="navbar">
+            <a href="index.html">Dashboard</a>
+            <a href="statistics.html">Statistics</a>
+            <a href="settings.html" class="active">Settings</a>
+            <a href="about.html">About</a>
+        </nav>
+
+        <h1>Settings</h1>
+
+        <div class="settings-section">
+            <h4>Preferences</h4>
+            <div class="setting-item">
+                <label for="currency">Currency:</label>
+                <select id="currency">
+                    <option value="INR">₹ Indian Rupee</option>
+                    <option value="USD">$ US Dollar</option>
+                    <option value="EUR">€ Euro</option>
+                </select>
+            </div>
+            <div class="setting-item">
+                <label for="notifications">Enable Notifications:</label>
+                <input type="checkbox" id="notifications" checked>
+            </div>
+            <div class="setting-item">
+                <label for="theme">Theme:</label>
+                <select id="theme">
+                    <option value="default">Default</option>
+                    <option value="dark">Dark Mode</option>
+                    <option value="light">Light Mode</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h4>Data Management</h4>
+            <button onclick="exportData()" class="action-btn">Export Data</button>
+            <button onclick="clearData()" class="danger-btn">Clear All Data</button>
+        </div>
+    </div>
+
+    <script src="settings.js"></script>
+</body>
+</html>

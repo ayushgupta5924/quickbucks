@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickBucks</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <div id="app" class="animate__animated animate__fadeIn">
+        <nav class="navbar">
+            <a href="index.html" class="active">Dashboard</a>
+            <a href="statistics.html">Statistics</a>
+            <a href="settings.html">Settings</a>
+            <a href="about.html">About</a>
+        </nav>
+
+        <h1>QuickBucks</h1>
+
+        <div id="taskInput" class="app-section animate__animated animate__fadeInLeft">
+            <label for="taskName">Task Name:</label>
+            <input type="text" id="taskName" placeholder="Enter task name">
+            <br>
+            <label for="taskReward">Task Reward (₹):</label>
+            <input type="number" id="taskReward" placeholder="Enter task reward">
+            <br>
+            <button onclick="addTask()"><i class="fas fa-plus"></i> Add Task</button>
+        </div>
+
+        <hr class="separator animate__animated animate__fadeIn">
+
+        <p id="walletTotal" class="app-section animate__animated animate__fadeIn">Wallet Total: ₹<span id="walletAmount">0</span></p>
+
+        <hr class="separator animate__animated animate__fadeIn">
+
+        <div id="currentTasks" class="app-section animate__animated animate__fadeIn">
+            <h4>Current Tasks:</h4>
+            <ul id="tasks" class="animate__animated animate__fadeIn"></ul>
+        </div>
+
+        <hr class="separator animate__animated animate__fadeIn">
+
+        <div id="completedTasks" class="app-section animate__animated animate__fadeIn">
+            <h4>Completed Tasks:</h4>
+            <ul id="completedList" class="animate__animated animate__fadeIn"></ul>
+        </div>
+
+        <hr class="separator animate__animated animate__fadeIn">
+
+        <div id="appDescription" class="app-section animate__animated animate__fadeInUp">
+            <div id="descriptionBox">
+               <h4><u>Application Description:</u></h4>
+                <ul id="appDescriptionList">
+                    <li>Elevate your productivity with QuickBucks, the app that turns your tasks into instant rewards</li>
+                    <li>Add tasks, assign rewards, check the box upon completion, and see your earnings grow in the wallet</li>
+                    <li>Maximize your efficiency and make every moment count</li>
+                    <li>Download QuickBucks now to transform your routine into a rewarding experience</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
