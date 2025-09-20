@@ -1,3 +1,22 @@
+// Check authentication
+if (!api.isAuthenticated()) {
+    window.location.href = 'login.html';
+}
+
+// Add logout functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const dataSection = document.querySelector('.settings-section:last-child');
+    const logoutBtn = document.createElement('button');
+    logoutBtn.textContent = 'Logout';
+    logoutBtn.className = 'danger-btn';
+    logoutBtn.onclick = () => {
+        if (confirm('Are you sure you want to logout?')) {
+            api.logout();
+        }
+    };
+    dataSection.appendChild(logoutBtn);
+});
+
 // Settings functionality
 function exportData() {
     const data = {

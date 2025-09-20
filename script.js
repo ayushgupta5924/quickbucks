@@ -3,9 +3,32 @@ let wallet = parseFloat(localStorage.getItem('wallet') || '0');
 
 // Load data on page load
 document.addEventListener('DOMContentLoaded', function() {
-    updateTaskList();
+    if (!api.isAuthenticated()) {
+        window.location.href = 'login.html';
+        return;
+    }
+    
     loadTheme();
+    syncWithBackend();
 });
+
+async function syncWithBackend() {
+    try {
+        // Sync tasks from backend
+        const backendTasks = await api.getTasks();
+        tasks = backendTasks;
+        
+        // Get user data
+        const stats = await api.getStats();
+        wallet = stats.totalEarnings;
+        
+        updateTaskList();
+    } catch (error) {
+        console.error('Sync failed:', error);
+        // Fallback to local data
+        updateTaskList();
+    }
+}
 
 function loadTheme() {
     const savedTheme = localStorage.getItem('theme') || 'default';
@@ -17,7 +40,7 @@ function loadTheme() {
 let lastAction = null;
 let currentFilter = 'all';
 
-function addTask() {
+async function addTask() {
     const taskName = document.getElementById("taskName").value;
     const taskCategory = document.getElementById("taskCategory").value;
     const taskPriority = document.getElementById("taskPriority").value;
@@ -29,25 +52,19 @@ function addTask() {
         return;
     }
 
-    const existingTask = tasks.find(task => task.name === taskName && !task.completed);
-
-    if (existingTask) {
-        alert("Task already exists in current tasks!");
-    } else {
-        const task = {
-            id: Date.now(),
+    try {
+        const taskData = {
             name: taskName,
             category: taskCategory,
             priority: taskPriority,
-            dueDate: taskDueDate,
-            reward: taskReward,
-            completed: false,
-            createdAt: new Date().toISOString()
+            dueDate: taskDueDate || null,
+            reward: taskReward
         };
-
-        lastAction = { type: 'add', task: {...task} };
-        tasks.push(task);
-        saveData();
+        
+        const newTask = await api.createTask(taskData);
+        tasks.push(newTask);
+        
+        lastAction = { type: 'add', task: {...newTask} };
         updateTaskList();
         showUndoButton();
         playSound('add');
@@ -56,6 +73,8 @@ function addTask() {
         document.getElementById("taskName").value = "";
         document.getElementById("taskDueDate").value = "";
         document.getElementById("taskReward").value = "";
+    } catch (error) {
+        alert('Failed to create task: ' + error.message);
     }
 }
 
@@ -85,16 +104,23 @@ function updateTaskList() {
             const checkbox = document.createElement("input");
             checkbox.type = "checkbox";
             checkbox.id = `taskCheckbox${index}`;
-            checkbox.addEventListener("change", () => {
+            checkbox.addEventListener("change", async () => {
                 if (checkbox.checked) {
-                    lastAction = { type: 'complete', task: {...task} };
-                    withdrawMoney(task.reward);
-                    task.completed = true;
-                    task.completedAt = new Date().toISOString();
-                    saveData();
-                    updateTaskList();
-                    showUndoButton();
-                    playSound('complete');
+                    try {
+                        await api.completeTask(task._id || task.id);
+                        
+                        lastAction = { type: 'complete', task: {...task} };
+                        task.completed = true;
+                        task.completedAt = new Date().toISOString();
+                        wallet += task.reward;
+                        
+                        updateTaskList();
+                        showUndoButton();
+                        playSound('complete');
+                    } catch (error) {
+                        checkbox.checked = false;
+                        alert('Failed to complete task: ' + error.message);
+                    }
                 }
             });
 

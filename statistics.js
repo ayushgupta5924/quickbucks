@@ -76,8 +76,13 @@ function updateRecentTasks(completedTasks) {
 
 // Load statistics on page load
 document.addEventListener('DOMContentLoaded', function() {
-    updateStatistics();
+    if (!api.isAuthenticated()) {
+        window.location.href = 'login.html';
+        return;
+    }
+    
     loadTheme();
+    loadBackendStatistics();
     
     // Refresh insights every 30 seconds if there are tasks
     setInterval(() => {
@@ -422,17 +427,41 @@ function displayInsights(insights) {
     `).join('');
 }
 
+async function loadBackendStatistics() {
+    try {
+        const stats = await api.getStats();
+        const insights = await api.getInsights();
+        
+        // Update statistics
+        document.getElementById('totalTasks').textContent = stats.totalTasks;
+        document.getElementById('completedTasksCount').textContent = stats.completedTasks;
+        document.getElementById('totalEarnings').textContent = stats.totalEarnings;
+        document.getElementById('successRate').textContent = stats.successRate + '%';
+        
+        updateCircularProgress(stats.completedTasks, stats.totalTasks);
+        updateRecentTasks(stats.recentTasks);
+        displayInsights(insights);
+    } catch (error) {
+        console.error('Failed to load statistics:', error);
+        updateStatistics(); // Fallback to local data
+    }
+}
+
 function generateNewInsights() {
-    const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
-    const completedTasks = tasks.filter(task => task.completed);
-    
-    // Add a small delay for better UX
     const insightsList = document.getElementById('insightsList');
     if (insightsList) {
         insightsList.innerHTML = '<div class="loading-insights">🤖 Analyzing your productivity patterns...</div>';
         
-        setTimeout(() => {
-            generateProductivityInsights(tasks, completedTasks);
+        setTimeout(async () => {
+            try {
+                const insights = await api.getInsights();
+                displayInsights(insights);
+            } catch (error) {
+                console.error('Failed to generate insights:', error);
+                const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+                const completedTasks = tasks.filter(task => task.completed);
+                generateProductivityInsights(tasks, completedTasks);
+            }
         }, 1000);
     }
 }

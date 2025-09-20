@@ -1004,6 +1004,87 @@ body.dark-theme .insight-message {
     color: #d1d5db;
 }
 
+/* Auth styles */
+.auth-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.auth-form {
+    background: white;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 400px;
+}
+
+.auth-tabs {
+    display: flex;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    color: #666;
+    border-bottom: 2px solid transparent;
+}
+
+.tab-btn.active {
+    color: #667eea;
+    border-bottom-color: #667eea;
+}
+
+.auth-form-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.error-message {
+    color: #dc2626;
+    background: #fef2f2;
+    padding: 10px;
+    border-radius: 6px;
+    display: none;
+    margin-top: 15px;
+}
+
+.loading-message {
+    color: #667eea;
+    text-align: center;
+    font-style: italic;
+    margin-top: 15px;
+}
+
+body.dark-theme .auth-form {
+    background: #2d3748;
+    color: #e2e8f0;
+}
+
+body.dark-theme .tab-btn {
+    color: #cbd5e0;
+}
+
+body.dark-theme .tab-btn.active {
+    color: #667eea;
+}
+
+body.dark-theme .error-message {
+    background: #7f1d1d;
+    color: #fecaca;
+}
+
 /* Additional dark theme styles for statistics page */
 body.dark-theme .stats-grid {
     color: #e2e8f0;
