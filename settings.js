@@ -1,7 +1,7 @@
 // Check authentication
-if (!api.isAuthenticated()) {
-    window.location.href = 'login.html';
-}
+// if (!api.isAuthenticated()) {
+//     window.location.href = 'login.html';
+// }
 
 // Add logout functionality
 document.addEventListener('DOMContentLoaded', function() {
