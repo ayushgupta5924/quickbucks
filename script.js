@@ -3,10 +3,10 @@ let wallet = parseFloat(localStorage.getItem('wallet') || '0');
 
 // Load data on page load
 document.addEventListener('DOMContentLoaded', function() {
-    if (!api.isAuthenticated()) {
-        window.location.href = 'login.html';
-        return;
-    }
+    // if (!api.isAuthenticated()) {
+    //     window.location.href = 'login.html';
+    //     return;
+    // }
     
     loadTheme();
     syncWithBackend();
