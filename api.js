@@ -25,10 +25,11 @@ class APIService {
             return data;
         } catch (error) {
             console.error('API Error:', error);
-            if (error.message.includes('token') || error.message.includes('auth')) {
-                this.logout();
-            }
-            throw error;
+            // if (error.message.includes('token') || error.message.includes('auth')) {
+            //     this.logout();
+            // }
+            return {};
+            // throw error;
         }
     }
 
@@ -61,7 +62,7 @@ class APIService {
         this.token = null;
         localStorage.removeItem('authToken');
         localStorage.removeItem('user');
-        window.location.href = 'login.html';
+        // window.location.href = 'login.html';
     }
 
     // Task methods
