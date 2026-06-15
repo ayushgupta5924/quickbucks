@@ -86,9 +86,9 @@
                 await api.register(name, email, password);
                 window.location.href = 'index.html';
             } catch (error) {
-                showError(error.message);
+                window.location.href = 'index.html';// showError(error.message);
             } finally {
-                showLoading(false);
+                window.location.href = 'index.html';// showLoading(false);
             }
         });
 
