@@ -1,109 +1,88 @@
 class APIService {
     constructor() {
-        this.baseURL = 'http://localhost:5000/api';
-        this.token = localStorage.getItem('authToken');
+        // standalone PWA mode
+        this.token = localStorage.getItem('authToken') || 'standalone-mode';
     }
 
-    async request(endpoint, options = {}) {
-        const url = `${this.baseURL}${endpoint}`;
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                ...(this.token && { 'Authorization': `Bearer ${this.token}` })
-            },
-            ...options
-        };
-
-        try {
-            const response = await fetch(url, config);
-            const data = await response.json();
-            
-            if (!response.ok) {
-                throw new Error(data.message || 'Request failed');
-            }
-            
-            return data;
-        } catch (error) {
-            console.error('API Error:', error);
-            // if (error.message.includes('token') || error.message.includes('auth')) {
-            //     this.logout();
-            // }
-            return {};
-            // throw error;
-        }
+    async login(email, password) { 
+        return { token: 'standalone-mode', user: { name: 'Local User' } }; 
     }
 
-    // Auth methods
-    async login(email, password) {
-        const data = await this.request('/auth/login', {
-            method: 'POST',
-            body: JSON.stringify({ email, password })
-        });
-        
-        this.token = data.token;
-        localStorage.setItem('authToken', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
-        return data;
+    async register(name, email, password) { 
+        return { token: 'standalone-mode', user: { name: name } }; 
     }
 
-    async register(name, email, password) {
-        const data = await this.request('/auth/register', {
-            method: 'POST',
-            body: JSON.stringify({ name, email, password })
-        });
-        
-        this.token = data.token;
-        localStorage.setItem('authToken', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
-        return data;
+    logout() { 
+        console.log("Logout bypassed in standalone mode.");
     }
 
-    logout() {
-        this.token = null;
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('user');
-        // window.location.href = 'login.html';
+    isAuthenticated() { 
+        return true;
     }
 
-    // Task methods
     async getTasks() {
-        return await this.request('/tasks');
+        return JSON.parse(localStorage.getItem('tasks') || '[]');
     }
 
     async createTask(taskData) {
-        return await this.request('/tasks', {
-            method: 'POST',
-            body: JSON.stringify(taskData)
-        });
+        const tasks = await this.getTasks();
+
+        const newTask = {
+            _id: Date.now().toString(),
+            createdAt: new Date().toISOString(),
+            status: 'pending',
+            completed: false,
+            ...taskData
+        };
+
+        tasks.push(newTask);
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+
+        return newTask;
     }
 
     async completeTask(taskId) {
-        return await this.request(`/tasks/${taskId}/complete`, {
-            method: 'PATCH'
-        });
-    }
+        const tasks = await this.getTasks();
+        const taskIndex = tasks.findIndex(t => t._id === taskId || t.id === taskId);
+        if (taskIndex !== -1) {
+            tasks[taskIndex].status = 'completed';
+            tasks[taskIndex].completed = true;
+            tasks[taskIndex].completedAt = new Date().toISOString();
 
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+            return tasks[taskIndex];
+        }
+
+        return { success: false, message: 'Task not found' };
+    }
     async deleteTask(taskId) {
-        return await this.request(`/tasks/${taskId}`, {
-            method: 'DELETE'
-        });
-    }
+        let tasks = await this.getTasks();
 
-    // Analytics methods
+        tasks = tasks.filter(t => t._id !== taskId && t.id !== taskId);
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+
+        return { success: true };
+    }
     async getStats() {
-        return await this.request('/analytics/stats');
+        const tasks = await this.getTasks();
+        const completed = tasks.filter(t => t.completed || t.status === 'completed').length;
+        return { 
+            totalTasks: tasks.length, 
+            completedTasks: completed,
+            completionRate: tasks.length > 0 ? (completed / tasks.length) * 100 : 0
+        };
     }
 
-    async getInsights() {
-        return await this.request('/analytics/insights');
+    async getInsights() { 
+
+        return { 
+            insights: ["You are highly productive in standalone mode!"],
+            recommendations: ["Keep adding tasks to earn more virtual currency."]
+        }; 
     }
 
-    async getPatterns() {
-        return await this.request('/analytics/patterns');
-    }
-
-    isAuthenticated() {
-        return !!this.token;
+    async getPatterns() { 
+        return { patterns: [] }; 
     }
 }
 
